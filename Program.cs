@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Configuration.AddJsonFile("appsettings.json");
+builder.Configuration.AddJsonFile("appsettings.json", optional: true);
 
 var app = builder.Build();
 // Use CORS
