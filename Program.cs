@@ -7,6 +7,9 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: true);
 
+Console.WriteLine("****SendGrid ApiKey = " + builder.Configuration["SendGrid:ApiKey"]);
+
+
 // Allow CORS
 builder.Services.AddCors(options =>
 {
