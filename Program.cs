@@ -3,6 +3,10 @@ using SendGrid.Helpers.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: true);
+
 // Allow CORS
 builder.Services.AddCors(options =>
 {
@@ -14,7 +18,9 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Configuration.AddJsonFile("appsettings.json", optional: true);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 // Use CORS
@@ -23,12 +29,9 @@ app.UseCors("AllowAll");
 app.MapPost("/enquiry", async (Enquiry enquiry, IConfiguration config) =>
 {
     var sendGridKey = config["SendGrid:ApiKey"];
-
-    Console.WriteLine("SendGrid ApiKey = " + sendGridKey);
+    Console.WriteLine("SendGrid ApiKey = " + config["SendGrid:ApiKey"]);
 
     var fromEmail = config["SendGrid:From"];
-
-    
     var toEmail = config["SendGrid:To"];
 
     var client = new SendGridClient(sendGridKey);
