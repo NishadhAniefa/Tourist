@@ -23,7 +23,12 @@ app.UseCors("AllowAll");
 app.MapPost("/enquiry", async (Enquiry enquiry, IConfiguration config) =>
 {
     var sendGridKey = config["SendGrid:ApiKey"];
+
+    Console.WriteLine("SendGrid ApiKey = " + sendGridKey);
+
     var fromEmail = config["SendGrid:From"];
+
+    
     var toEmail = config["SendGrid:To"];
 
     var client = new SendGridClient(sendGridKey);
