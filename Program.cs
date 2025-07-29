@@ -6,11 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Allow CORS
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()  // or use WithOrigins("http://localhost:5500") if serving frontend via a dev server
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
@@ -18,7 +18,7 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true);
 
 var app = builder.Build();
 // Use CORS
-app.UseCors();
+app.UseCors("AllowAll");
 
 app.MapPost("/enquiry", async (Enquiry enquiry, IConfiguration config) =>
 {
