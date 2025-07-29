@@ -30,18 +30,14 @@ app.MapPost("/enquiry", async (Enquiry enquiry, IConfiguration config) =>
     var from = new EmailAddress(fromEmail, "Tour Enquiry");
     var to = new EmailAddress(toEmail);
     var subject = $"New Tour Enquiry from {enquiry.Name}";
-    var plainTextContent = $"""
-        Name: {enquiry.Name}
-        Email: {enquiry.Email}
-        Phone: {enquiry.Phone}
-        Message: {enquiry.Message}
-    """;
-    var htmlContent = $"""
-        <strong>Name:</strong> {enquiry.Name}<br/>
-        <strong>Email:</strong> {enquiry.Email}<br/>
-        <strong>Phone:</strong> {enquiry.Phone}<br/>
-        <strong>Message:</strong><br/>{enquiry.Message}
-    """;
+    var plainTextContent = $"Name: {enquiry.Name}\nEmail: {enquiry.Email}\nPhone: {enquiry.Phone}\nMessage: {enquiry.Message}";
+
+
+    var htmlContent = $"<strong>Name:</strong> {enquiry.Name}<br/>" +
+                  $"<strong>Email:</strong> {enquiry.Email}<br/>" +
+                  $"<strong>Phone:</strong> {enquiry.Phone}<br/>" +
+                  $"<strong>Message:</strong><br/>{enquiry.Message}";
+
 
     var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
     var response = await client.SendEmailAsync(msg);
